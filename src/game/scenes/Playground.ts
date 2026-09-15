@@ -1,19 +1,22 @@
 import { Scene } from 'phaser';
 import { EventBus } from '../EventBus';
+import { Hand } from '../entities/Hand';
 
-export class Template extends Scene
+export class Playground extends Scene
 {
     constructor()
     {
-        super('GameScene')
+        super('Playground')
     }
     
     create()
     {
         // Notify React that this scene is active and ready
         EventBus.emit('current-scene-ready', this);
-        
-        // insert create code here
+
+        this.sys.canvas.style.cursor = 'none';
+
+        new Hand(this)
     }
     
     update()
