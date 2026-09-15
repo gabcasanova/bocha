@@ -16,6 +16,10 @@ export class Playground extends Scene
 
         this.sys.canvas.style.cursor = 'none';
 
+        let background = this.add.image(0, 0, "playgroundBackground")
+        background.setOrigin(0, 0)
+        background.setDisplaySize(this.scale.width, this.scale.height)
+
         new Hand(this)
     }
     

@@ -23,6 +23,11 @@ export class Hand extends GameObjects.Sprite
         scene.input.once('pointerdown', (pointer: PointerEvent) => {
             this.currentState = this.possibleStates[2]
         }, this);
+
+        this.setOrigin(0.5, 0.5)
+        this.displayWidth = 70
+        this.scaleY = this.scaleX
+        this.y = scene.scale.height - (this.displayHeight/4)
     }
 
     preUpdate(time: number, delta: number) 

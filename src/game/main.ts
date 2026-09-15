@@ -1,5 +1,5 @@
 import { Boot } from './scenes/Boot';
-import { AUTO, Game } from 'phaser';
+import { AUTO, Game, Scale } from 'phaser';
 import { Preloader } from './scenes/Preloader';
 import { Playground } from './scenes/Playground';
 
@@ -7,11 +7,16 @@ import { Playground } from './scenes/Playground';
 //  https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config: Phaser.Types.Core.GameConfig = {
     type: AUTO,
-    width: 1280,
-    height: 720,
+    width: 1000,
+    height: 1000,
     parent: 'game-container',
 
     backgroundColor: '#808080',
+
+    scale: {
+        mode: Scale.FIT,
+        autoCenter: Scale.CENTER_BOTH
+    },
 
     physics: {
         default: 'arcade',
