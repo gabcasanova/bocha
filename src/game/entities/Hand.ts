@@ -25,13 +25,13 @@ export class Hand extends GameObjects.Sprite
         this.scaleY = this.scaleX
         this.y = scene.scale.height - (this.displayHeight/4)
 
-        // Draw ball inside hand
+        // Create ball inside hand
         this.ball = scene.add.image(0.5, 0.5, "ball")
         this.ball.displayWidth = 70
         this.ball.scaleY = this.ball.scaleX
 
-        // Draw line
-        this.line = new Geom.Line(this.x, this.y, this.x, this.y+100)
+        // Create line
+        this.line = new Geom.Line(this.x, this.y, this.x, this.y)
         this.graphics = scene.add.graphics()
 
         this.possibleStates = ["stopped", "moving", "turning", "force"]
@@ -89,10 +89,10 @@ export class Hand extends GameObjects.Sprite
         this.ball.y = this.y
         this.ball.angle = this.angle
 
-
         // Draw direction line
         let handToLineOffset = 90
-        this.line.setTo(this.x, this.y - handToLineOffset, this.x, this.y-300)
+        let lineLength = 300
+        this.line.setTo(this.x, this.y - handToLineOffset, this.x, this.y - lineLength)
         this.graphics.clear();
         this.graphics.lineStyle(3, 0xffffff, 1); // Width: 3px, Color: White, Alpha: 1.0
         this.graphics.strokeLineShape(this.line);
