@@ -1,4 +1,4 @@
-import { GameObjects, Math } from 'phaser';
+import { GameObjects, Geom, Math } from 'phaser';
 import { PointerEvent } from 'react';
 
 export class Hand extends GameObjects.Sprite
@@ -8,12 +8,31 @@ export class Hand extends GameObjects.Sprite
     private lastMouseX: number = -1;
     private debugText: Phaser.GameObjects.Text
 
+    private ball: Phaser.GameObjects.Image
+    private line: Phaser.Geom.Line
+    private graphics: Phaser.GameObjects.Graphics
+
     constructor(scene: Phaser.Scene) 
     {
-        super(scene, 200, 630, "hand");
+        super(scene, 400, 630, "hand");
 
         // Add to updatelist
         scene.add.existing(this);
+
+        // Set sprite size and position
+        this.setOrigin(0.5, 0.5)
+        this.displayWidth = 70
+        this.scaleY = this.scaleX
+        this.y = scene.scale.height - (this.displayHeight/4)
+
+        // Draw ball inside hand
+        this.ball = scene.add.image(0.5, 0.5, "ball")
+        this.ball.displayWidth = 70
+        this.ball.scaleY = this.ball.scaleX
+
+        // Draw line
+        this.line = new Geom.Line(this.x, this.y, this.x, this.y+100)
+        this.graphics = scene.add.graphics()
 
         this.possibleStates = ["stopped", "moving", "turning", "force"]
         this.currentState = this.possibleStates[1]
@@ -23,11 +42,6 @@ export class Hand extends GameObjects.Sprite
         scene.input.once('pointerdown', (pointer: PointerEvent) => {
             this.currentState = this.possibleStates[2]
         }, this);
-
-        this.setOrigin(0.5, 0.5)
-        this.displayWidth = 70
-        this.scaleY = this.scaleX
-        this.y = scene.scale.height - (this.displayHeight/4)
     }
 
     preUpdate(time: number, delta: number) 
@@ -69,6 +83,19 @@ export class Hand extends GameObjects.Sprite
             default:
                 break;
         }
+
+        // Ball follow hand
+        this.ball.x = this.x
+        this.ball.y = this.y
+        this.ball.angle = this.angle
+
+
+        // Draw direction line
+        let handToLineOffset = 90
+        this.line.setTo(this.x, this.y - handToLineOffset, this.x, this.y-300)
+        this.graphics.clear();
+        this.graphics.lineStyle(3, 0xffffff, 1); // Width: 3px, Color: White, Alpha: 1.0
+        this.graphics.strokeLineShape(this.line);
 
         // Debug display
         this.debugText.setText(this.currentState)
